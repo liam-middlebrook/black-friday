@@ -19,6 +19,8 @@ public class Wander : MonoBehaviour
     public float oppisiteDirection = 0.5f;
     public float orthoDirection = 0.75f;
 
+    public float rayDistance = 1.0f;
+    public float sideRayDistance = 0.75f;
     void Start()
     {
         directionValues[Direction.NORTH] = Vector3.forward;
@@ -109,6 +111,30 @@ public class Wander : MonoBehaviour
                 break;
         }
 
+
+        Debug.DrawRay(this.transform.position, this.rigidbody.velocity.normalized * rayDistance, Color.red);
+
+        Debug.DrawRay(this.transform.position, Vector3.Project(this.rigidbody.velocity, new Vector3(rayDistance, 0, 0)).normalized * sideRayDistance, Color.green);
+        Debug.DrawRay(this.transform.position, Vector3.Project(this.rigidbody.velocity, new Vector3(0, 0, rayDistance)).normalized * sideRayDistance, Color.green);
+
+        RaycastHit hit;
+        Vector3 leftRay = Vector3.Project(this.rigidbody.velocity, new Vector3(rayDistance, 0, 0));
+        Vector3 rightRay = Vector3.Project(this.rigidbody.velocity, new Vector3(0, 0, rayDistance));
+        if (Physics.Raycast(new Ray(this.transform.position, this.rigidbody.velocity), out hit, rayDistance) && hit.collider.gameObject.tag == "Wall")
+        {
+            //Debug.Log("Ray hit");
+            steeringForce -= this.rigidbody.velocity.normalized;
+        }
+        if (Physics.Raycast(new Ray(this.transform.position, leftRay), out hit, sideRayDistance) && hit.collider.gameObject.tag == "Wall")
+        {
+            //Debug.Log("Ray hit");
+            steeringForce -= Vector3.Project(this.rigidbody.velocity, new Vector3(rayDistance, 0, 0)).normalized;
+        }
+        if (Physics.Raycast(new Ray(this.transform.position, rightRay), out hit, sideRayDistance) && hit.collider.gameObject.tag == "Wall")
+        {
+            //Debug.Log("Ray hit");
+            steeringForce -= Vector3.Project(this.rigidbody.velocity, new Vector3(0, 0, rayDistance)).normalized;
+        }
         this.rigidbody.AddForce(steeringForce);
     }
 }
