@@ -31,9 +31,17 @@ namespace AStarPathfinding
         // The next node the pathfinder will travel to
         private PathNode nextNode;
 
+        /// <summary>
+        /// The radius at which the pathfinder will start to slow down
+        /// as it approaches its target
+        /// </summary>
         public float approachRadius;
 
+        /// <summary>
+        /// The maximum velocity of the pathfinder
+        /// </summary>
         public float maxVelocity;
+
         // Get pathfinder ID
         public void Awake()
         {
@@ -78,6 +86,8 @@ namespace AStarPathfinding
             Vector3 steerDirection = nextNode - this.transform.position;
 
             Vector3 desiredVelocity;
+
+            // If we're in the approach radius start to slow down based off of distance from target
             if (steerDirection.magnitude < approachRadius)
             {
                 desiredVelocity=(steerDirection.normalized * maxVelocity * (steerDirection.magnitude / approachRadius));
@@ -86,6 +96,8 @@ namespace AStarPathfinding
             {
                 desiredVelocity = (steerDirection.normalized * maxVelocity);
             }
+
+            // Apply the difference in velocities to the pathfinder
             this.rigidbody.AddForce(desiredVelocity - this.rigidbody.velocity);
         }
         /// <summary>
