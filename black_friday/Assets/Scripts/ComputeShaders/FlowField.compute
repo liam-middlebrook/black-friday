@@ -1,0 +1,76 @@
+﻿RWStructuredBuffer<float2> FlowField;
+float2 position;
+RWStructuredBuffer<float2> force;
+float positionRatio;
+
+uint2 FieldSize;
+
+#pragma kernel InitFlowfield
+
+[numthreads(8, 8, 1)]
+void InitFlowfield (uint3 id : SV_DispatchThreadID)
+{
+	FlowField[id.y * FieldSize.x + id.x] = float2(1,1);
+}
+
+/*
+#pragma kernel ForceAtPosition
+[numthreads(8,8,1)]
+void ForceAtPosition (uint3 dummy : SV_DispatchThreadID)
+{
+    float2 forceVector = float2(0, 0);
+	for(int x = 0; x < FieldSize.x; x++)
+	{
+		for(int y = 0; y < FieldSize.y; y++)
+		{
+			float2 currentIDPosition = float2(x, y) * positionRatio;
+
+			float intensity = 1.0/pow(distance(currentIDPosition, position), 2);
+
+			forceVector = forceVector + FlowField.Load(int3(x, y, 0)).xy * intensity;
+		}
+	}
+
+	force[0] = forceVector.xy;
+}
+*/
+
+#pragma kernel ForceAtPosition
+#define groupDim_x 512
+groupshared float2 sdata[groupDim_x];
+
+int step;
+
+[numthreads( groupDim_x, 1, 1)]
+void ForceAtPosition( uint3 threadIdx : SV_GroupThreadID, 
+	uint3 groupIdx : SV_GroupID)
+{ 
+	// each thread loads one element from global to shared mem
+	unsigned int tid = threadIdx.x;
+
+	unsigned int i = groupIdx.x*groupDim_x + threadIdx.x;
+
+	sdata[tid] = FlowField[i];
+
+	GroupMemoryBarrierWithGroupSync();
+
+	// do reduction in shared mem
+	for(unsigned int s=1; s < groupDim_x; s *= 2)
+	{
+		if (tid % (2*s) == 0)
+		{
+			//if(step != 0)
+			{
+				sdata[tid] += sdata[tid + s];
+			}
+			//else
+			{
+			//	float intensity = 1.0/pow(distance(float2(threadIdx.x, groupIdx.x) * positionRatio, position), 2);
+			//	sdata[tid] += sdata[tid + s] * intensity;
+			}
+		}
+		GroupMemoryBarrierWithGroupSync();
+	}
+	// write result for this block to global mem
+	if (tid == 0) FlowField[groupIdx.x] = force[0] = sdata[0];
+}
