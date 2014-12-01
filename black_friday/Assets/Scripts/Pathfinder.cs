@@ -31,6 +31,9 @@ namespace AStarPathfinding
         // The next node the pathfinder will travel to
         private PathNode nextNode;
 
+        public float approachRadius;
+
+        public float maxVelocity;
         // Get pathfinder ID
         public void Awake()
         {
@@ -73,7 +76,17 @@ namespace AStarPathfinding
 
             // Get the force direction in order to reach the next node; Apply the force
             Vector3 steerDirection = nextNode - this.transform.position;
-            this.rigidbody.AddForce(steerDirection.normalized * 1);
+
+            Vector3 desiredVelocity;
+            if (steerDirection.magnitude < approachRadius)
+            {
+                desiredVelocity=(steerDirection.normalized * maxVelocity * (steerDirection.magnitude / approachRadius));
+            }
+            else
+            {
+                desiredVelocity = (steerDirection.normalized * maxVelocity);
+            }
+            this.rigidbody.AddForce(desiredVelocity - this.rigidbody.velocity);
         }
         /// <summary>
         /// Calculates the quickest distance between two points (Not ideal because of the manhattan distance hueristic)
