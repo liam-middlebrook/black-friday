@@ -21,6 +21,8 @@ public class Wander : MonoBehaviour
 
     public float rayDistance = 1.0f;
     public float sideRayDistance = 0.75f;
+
+    public float wanderSpeed = 10.0f;
     void Start()
     {
         directionValues[Direction.NORTH] = Vector3.forward;
@@ -111,7 +113,7 @@ public class Wander : MonoBehaviour
                 break;
         }
 
-
+        steeringForce *= wanderSpeed;
         Debug.DrawRay(this.transform.position, this.rigidbody.velocity.normalized * rayDistance, Color.red);
 
         Debug.DrawRay(this.transform.position, Vector3.Project(this.rigidbody.velocity, new Vector3(rayDistance, 0, 0)).normalized * sideRayDistance, Color.green);
