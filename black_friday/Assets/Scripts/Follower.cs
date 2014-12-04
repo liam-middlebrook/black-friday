@@ -4,9 +4,9 @@ using System.Collections;
 public class Follower : MonoBehaviour
 {
     private LeaderManager leaderManager;
-    public float followSpeed = 5.0f;
+    public float followSpeed = 8.0f;
     
-    public float followRadius = 2.5f;
+    public float followRadius = 5.0f;
 
     // Use this for initialization
     void Start()
@@ -21,18 +21,9 @@ public class Follower : MonoBehaviour
 
         forceVector = leaderManager.Leader.transform.position - this.transform.position;
 
-        float dist = forceVector.magnitude;
-
         forceVector.Normalize();
         
-        Vector3 forceDir = forceVector;
-
         forceVector *= followSpeed;
-
-        if (dist <= followRadius)
-        {
-            forceVector -= forceDir * (followRadius / dist) * followSpeed;
-        }
         this.rigidbody.AddForce(forceVector);
     }
 }
