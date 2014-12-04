@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Separation : MonoBehaviour
 {
-    public float forceAmt = 2.0f;
+    public float forceAmt = 6.0f;
     // Use this for initialization
     void Start()
     {

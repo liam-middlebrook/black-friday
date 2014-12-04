@@ -4,10 +4,10 @@ using System.Collections;
 public class RaycastAvoidWall : MonoBehaviour
 {
 
-    public float rayDistance = 1.0f;
-    public float sideRayDistance = 0.75f;
+    public float rayDistance = 2.0f;
+    public float sideRayDistance = 1.5f;
 
-    public float forceAmt = 10.0f;
+    public float forceAmt = 15.0f;
     // Use this for initialization
     void Start()
     {
