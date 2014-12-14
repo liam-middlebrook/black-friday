@@ -7,6 +7,13 @@ Black Friday is a solo-project created for my Interactive Media Development
 class at RIT. It covers the implementation of several different steering
 behaviors which I have listed below.
 
+
+In Black Friday you are a security guard safe within the comfort of your
+own office. You notice shoppers storming around the store and feel the need
+to release the security roombas from the shelves. The roombas wander around
+the store and select a leader whom will take them on their pursuit to slow
+down the shoppers. 
+
 ## A-Star Pathfinding
 
 Two randomly colored spheres move around the map in search of target hotspots
@@ -38,13 +45,6 @@ The wandering is based off of a markov-chain like strategy where there are
 percentage values attributed for turning different directions in relation
 to the current direction of the wanderer.
 
-
-
-In Black Friday you are a security guard safe within the comfort of your
-own office. You notice shoppers storming around the store and feel the need
-to release the security roombas from the shelves. The roombas wander around
-the store and select a leader whom will take them on their pursuit to slow
-down the shoppers. 
 
 # Contols
 
