@@ -136,7 +136,8 @@ namespace AStarPathfinding
 
                 //If the left child is greater than the current node AND the right child is less than the current node
                 //OR the left child is less than the current node and the left child is greater than the right child
-                if ((!greaterThanLeft && innerHeap[index].CompareTo(innerHeap[rightChildIndex]) > 0) || (greaterThanLeft && innerHeap[leftChildIndex].CompareTo(innerHeap[rightChildIndex]) > 0))
+                if ((!greaterThanLeft && innerHeap[index].CompareTo(innerHeap[rightChildIndex]) > 0)
+                    || (greaterThanLeft && innerHeap[leftChildIndex].CompareTo(innerHeap[rightChildIndex]) > 0))
                 {
                     SwapFromIndices(index, rightChildIndex);
                     greaterThanLeft = false;
