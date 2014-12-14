@@ -17,6 +17,9 @@ public class Follower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!Wander.doWander)
+            return;
+        
         Vector3 forceVector;
 
         forceVector = leaderManager.Leader.transform.position - this.transform.position;

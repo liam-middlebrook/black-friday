@@ -28,6 +28,8 @@ public class Wander : MonoBehaviour
 
     private float wanderTimer;
     private float wanderTime = 0.1f;
+
+    public static bool doWander = false;
     void Start()
     {
         directionValues[Direction.NORTH] = Vector3.forward;
@@ -41,6 +43,9 @@ public class Wander : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!doWander)
+            return;
+
         Vector3 steeringForce = Vector3.zero;
         wanderTimer += Time.deltaTime;
 
@@ -137,6 +142,9 @@ public class Wander : MonoBehaviour
 
     public void FixedUpdate()
     {
+        if (!doWander)
+            return;
+
         int leadCount = 0;
         foreach (Wander w in LeaderManager.wanderers)
         {

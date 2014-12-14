@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\Pathfinder.cs" />
     <Compile Include="Assets\Scripts\PriorityQueue.cs" />
     <Compile Include="Assets\Scripts\RaycastAvoidWall.cs" />
+    <Compile Include="Assets\Scripts\RoombaController.cs" />
     <Compile Include="Assets\Scripts\Separation.cs" />
     <Compile Include="Assets\Scripts\Wander.cs" />
   </ItemGroup>

@@ -19,6 +19,7 @@ public class Separation : MonoBehaviour
             return;
 
         Vector3 diff = other.transform.position - this.transform.position;
+        diff.y = 0;
         diff.Normalize();
 
         other.rigidbody.AddForce(diff * forceAmt);
